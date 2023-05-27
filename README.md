@@ -12,7 +12,7 @@ docker push 30russian/otus
 ## Running
 Run
 ```bash
-docker run -p 8000:8000 --rm -it otustask_1.2
+docker run -p 8000:8000 --rm -it 30russian/otus
 ```
 
 ## Linters

@@ -1,3 +1,19 @@
+# Настройка kubernetes
+
+## Предварительная настройка k8s
+```bash
+minikube start
+kubectl create namespace otus
+kubectl config set-context --current --namespace=otus
+````
+
+## Установка и настройка Nginx ingress контроллера
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+helm repo update
+helm install nginx ingress-nginx/ingress-nginx --namespace otus -f nginx_ingress.yaml
+```
+
 ## Building
 Run
 ```bash

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "otus"
+version = "0.1.0"
+description = ""
+authors = ["Evgeniy Kuznetsov"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.2"
+jinja2 = "^3.1.2"
+djangorestframework = "^3.14.0"
+psycopg2 = "^2.9.6"
+gunicorn = "^20.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

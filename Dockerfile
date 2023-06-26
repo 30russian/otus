@@ -1,9 +1,9 @@
-FROM node:14
+FROM python
 
-COPY * /app/
+COPY dist/* /dist/
 
-WORKDIR /app
+WORKDIR /dist
 
-RUN npm install
+RUN python3 -m pip install otus-0.1.0-py3-none-any.whl
 
-CMD ["node", "app.js"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "-t", "120", "--access-logfile", "-", "-w", "9", "otus.main.wsgi"]

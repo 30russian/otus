@@ -1,0 +1,6 @@
+auth:
+  postgresPassword: qweasd123
+  database: otus
+  username: otus
+  password: otus
+fullnameOverride: otus-postgres

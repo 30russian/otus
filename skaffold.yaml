@@ -1,0 +1,20 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: otus-skaffold
+build:
+  artifacts:
+    - image: 30russian/otus
+      custom:
+        buildCommand: bash -c "poetry build && docker build -t ${IMAGE} ./ && [[ '$PUSH_IMAGE' == 'true' ]] && docker push ${IMAGE}"
+      context: .
+      sync:
+        manual:
+          - src: "otus/**/*"
+            dest: "/usr/local/lib/python3.11/site-packages/otus"
+            strip: "otus/"
+  local:
+    push: true
+deploy:
+  kubectl: {}
+

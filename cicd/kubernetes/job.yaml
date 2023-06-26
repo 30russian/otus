@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrations-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: migrations-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: main
+          image: 30russian/otus:1.0.0
+          imagePullPolicy: Always
+          command: ["django-admin"]
+          args: ["migrate"]
+          env:
+            - name: OTUS_CONFIG_FILE
+              value: /opt/otus/app/config.json
+            - name: OTUS_POSTGRES_CONFIG
+              value: /opt/otus/postgres/config.json
+            - name: DJANGO_SETTINGS_MODULE
+              valueFrom:
+                configMapKeyRef:
+                  key: djangoSettingsModule
+                  name: otus-configmap
+          volumeMounts:
+            - mountPath: /opt/otus/app
+              name: config
+            - mountPath: /opt/otus/postgres
+              name: postgres
+      volumes:
+        - name: config
+          configMap:
+            name: otus-configmap
+            items:
+              - key: configFile
+                path: config.json
+        - name: postgres
+          secret:
+            secretName: otus-secret
+            items:
+              - key: postgresSettings
+                path: config.json

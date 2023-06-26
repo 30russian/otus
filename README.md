@@ -1,4 +1,4 @@
-# Настройка kubernetes
+# Настройка
 
 ## Предварительная настройка k8s
 ```bash
@@ -11,31 +11,57 @@ kubectl config set-context --current --namespace=otus
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
 helm repo update
-helm install nginx ingress-nginx/ingress-nginx --namespace otus -f nginx_ingress.yaml
+helm install nginx ingress-nginx/ingress-nginx --namespace otus -f cicd/helm/nginx_ingress.yaml
 ```
 
-## Building
-Run
+## Установка и настройка Postrges
 ```bash
-docker build -t 30russian/otus ./
+helm install rdbms1 -f cicd/helm/postgres_values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
 ```
+
+## Прописывание хостов
+```bash
+minikube node list
+```
+Полученный адрес узла необходимо прописать в файле `/etc/hosts` для хоста `arch.homework`
+
+## Настройка Skaffold
+```bash
+skaffold init -k cicd/kubernetes/deployment.yaml -k cicd/kubernetes/service.yaml
+```
+
+# Подготовка артефактов
+
+## Building
+Для сборки проекта необходимо запустить
+```bash
+make all
+```
+В локальном репозитории docker образов появится образ `30russian/otus:1.0.0`
 ## Pushing
 Run
 ```bash
-docker push 30russian/otus
+docker push 30russian/otus:1.0.0
 ```
 
-## Running
-### Docker
-Run
+# Running
+## Minikube
+Запускаем всё вручную
 ```bash
-docker run -p 8000:8000 --rm -it 30russian/otus
+cd cicd/kubernetes
+kubectl apply -f job.yaml
+kubectl apply -f otus-configmap.yaml,otus-secret.yaml,deployment.yaml,service.yaml,ingress.yaml
 ```
-### Minikube
-Run
+Или для редеплоя используем Skaffold
 ```bash
-cd kubernetes && kubectl apply -f .
+cd cicd/kubernetes
+kubectl apply -f job.yaml
+kubectl apply -f otus-configmap.yaml,otus-secret.yaml,ingress.yaml
+cd -
+skaffold dev --trigger='manual'
 ```
+
+# QA
 
 ## Linters
 Run
@@ -44,14 +70,19 @@ hadolint Dockerfile
 ```
 
 ## Test
-### Docker
-Run
-```bash
-curl http://localhost:8000/health/
-```
 ### Kubernetes
 Run
 ```bash
 curl http://arch.homework/health
-curl http://arch.homework/otusapp/studname/dfg
+curl http://arch.homework/users
+```
+
+### API tests
+Сначала устанавливаем newman:
+```bash
+npm install -g newman
+```
+Потом натравливаем его на нашу коллекцию
+```bash
+newman run allinone.postman_collection.json
 ```

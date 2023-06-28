@@ -32,7 +32,7 @@
 					"script": {
 						"exec": [
 							"var res = JSON.parse(responseBody);",
-							"if(res.access != null)",
+							"if(res.id != null)",
 							"{",
 							"    pm.environment.set('userId', res.id);",
 							"}"

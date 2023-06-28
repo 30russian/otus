@@ -30,6 +30,12 @@ minikube node list
 skaffold init -k cicd/kubernetes/deployment.yaml -k cicd/kubernetes/service.yaml
 ```
 
+## Настройка окружения разработчика
+```bash
+poetry install
+poetry shell
+```
+
 # Подготовка артефактов
 
 ## Building
@@ -49,8 +55,8 @@ docker push 30russian/otus:1.0.0
 Запускаем всё вручную
 ```bash
 cd cicd/kubernetes
-kubectl apply -f job.yaml
-kubectl apply -f otus-configmap.yaml,otus-secret.yaml,deployment.yaml,service.yaml,ingress.yaml
+kubectl apply -f otus-configmap.yaml,otus-secret.yaml,job.yaml
+kubectl apply -f deployment.yaml,service.yaml,ingress.yaml
 ```
 Или для редеплоя используем Skaffold
 ```bash
@@ -84,5 +90,5 @@ npm install -g newman
 ```
 Потом натравливаем его на нашу коллекцию
 ```bash
-newman run allinone.postman_collection.json
+newman run -e minikube.postman_environment.json allinone.postman_collection.json
 ```

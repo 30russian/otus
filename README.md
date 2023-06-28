@@ -61,8 +61,8 @@ kubectl apply -f deployment.yaml,service.yaml,ingress.yaml
 Или для редеплоя используем Skaffold
 ```bash
 cd cicd/kubernetes
-kubectl apply -f job.yaml
-kubectl apply -f otus-configmap.yaml,otus-secret.yaml,ingress.yaml
+kubectl apply -f otus-configmap.yaml,otus-secret.yaml,job.yaml
+kubectl apply -f ingress.yaml
 cd -
 skaffold dev --trigger='manual'
 ```

@@ -11,3 +11,10 @@ controller:
 
   service:
     type: NodePort
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: otus-promet # этот лейбл здесь нужен чтобы этот service monitor появился в prometheus service doiscovery

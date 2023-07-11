@@ -25,6 +25,7 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include('django_prometheus.urls')),
     path('admin/', admin.site.urls),
     path('health/', views.HealtCheck.as_view()),
 ]

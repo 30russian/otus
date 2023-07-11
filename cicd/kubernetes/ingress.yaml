@@ -10,7 +10,7 @@ spec:
     - host: arch.homework
       http:
         paths:
-          - path: /(health|users)(/.*)?$
+          - path: /(health|users|metrics)(/.*)?$
             pathType: ImplementationSpecific
             backend:
               service:

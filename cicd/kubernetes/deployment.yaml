@@ -35,6 +35,24 @@ spec:
           ports:
             - name: otus-app-web
               containerPort: 8000
+            - name: worker1-metrics
+              containerPort: 8001
+            - name: worker2-metrics
+              containerPort: 8002
+            - name: worker3-metrics
+              containerPort: 8003
+            - name: worker4-metrics
+              containerPort: 8004
+            - name: worker5-metrics
+              containerPort: 8005
+            - name: worker6-metrics
+              containerPort: 8006
+            - name: worker7-metrics
+              containerPort: 8007
+            - name: worker8-metrics
+              containerPort: 8008
+            - name: worker9-metrics
+              containerPort: 8009
           volumeMounts:
             - mountPath: /opt/otus/app
               name: config

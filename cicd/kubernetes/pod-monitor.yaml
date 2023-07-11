@@ -1,0 +1,52 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: application-podmonitor
+  labels:
+    app: otus-app
+    release: otus-promet # этот лейбл здесь нужен чтобы этот pod monitor появился в prometheus service doiscovery
+  namespace: otus
+spec:
+  namespaceSelector:
+    matchNames:
+    - otus
+  selector:
+    matchLabels:
+      app: otus-app
+  podMetricsEndpoints:
+  - port: worker1-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker2-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker3-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker4-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker5-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker6-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker7-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker8-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
+  - port: worker9-metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
